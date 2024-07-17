@@ -1,0 +1,20 @@
+Your password: newpass
+ Name: Anton
+ Surname: Olianiuk
+ Age: 20
+ Sex: Male
+ Registrational number: 200
+ About me: s
+ Requirements: a
+
+-------------------------------------------
+Your password: pass
+ Name: Bob
+ Surname: csdcs
+ Age: 20
+ Sex: Male
+ Registrational number: 1
+ About me: a
+ Requirements: c
+
+-------------------------------------------

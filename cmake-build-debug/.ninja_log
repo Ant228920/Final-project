@@ -1,0 +1,27 @@
+# ninja log v5
+3	438	7423373496197618	CMakeFiles/final_project.dir/main.cpp.obj	eda7b9c2a40d997b
+6	417	7422535650897311	CMakeFiles/final_project.dir/Person.cpp.obj	f85902f10c5a8dda
+670	779	7423373825671889	final_project.exe	b0235691ba6605c0
+13	443	7422536133353467	CMakeFiles/final_project.dir/Info.cpp.obj	f8a908a6a165cdf2
+3	670	7423373824590038	CMakeFiles/final_project.dir/Functions.cpp.obj	5eec0c7f38c2a4d2
+3	427	7423373907059071	CMakeFiles/final_project.dir/main.cpp.obj	eda7b9c2a40d997b
+428	529	7423373908059350	final_project.exe	b0235691ba6605c0
+5	797	7423514485307586	CMakeFiles/final_project.dir/main.cpp.obj	eda7b9c2a40d997b
+14	1262	7423514489948044	CMakeFiles/final_project.dir/Functions.cpp.obj	5eec0c7f38c2a4d2
+1262	1658	7423514493869124	final_project.exe	b0235691ba6605c0
+4	817	7424296715307902	CMakeFiles/final_project.dir/main.cpp.obj	eda7b9c2a40d997b
+818	1025	7424296717332597	final_project.exe	b0235691ba6605c0
+4	780	7424298443950036	CMakeFiles/final_project.dir/main.cpp.obj	eda7b9c2a40d997b
+781	974	7424298445814676	final_project.exe	b0235691ba6605c0
+4	741	7424298548011330	CMakeFiles/final_project.dir/main.cpp.obj	eda7b9c2a40d997b
+742	910	7424298549631541	final_project.exe	b0235691ba6605c0
+4	754	7424298887095515	CMakeFiles/final_project.dir/main.cpp.obj	eda7b9c2a40d997b
+754	918	7424298888676402	final_project.exe	b0235691ba6605c0
+4	1136	7424303198127626	CMakeFiles/final_project.dir/Functions.cpp.obj	5eec0c7f38c2a4d2
+1136	1321	7424303199930501	final_project.exe	b0235691ba6605c0
+5	1116	7424336278475261	CMakeFiles/final_project.dir/Functions.cpp.obj	5eec0c7f38c2a4d2
+1117	1307	7424336280323389	final_project.exe	b0235691ba6605c0
+5	1106	7424337443784003	CMakeFiles/final_project.dir/Functions.cpp.obj	5eec0c7f38c2a4d2
+1106	1272	7424337445390312	final_project.exe	b0235691ba6605c0
+4	1049	7424338551616892	CMakeFiles/final_project.dir/Functions.cpp.obj	5eec0c7f38c2a4d2
+1050	1187	7424338552951279	final_project.exe	b0235691ba6605c0
