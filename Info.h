@@ -6,17 +6,18 @@
 using namespace std;
 class Info: public Person {
 private:
+    int age;
+    string sex;
     string pass;
     int regisnum;
     string about;
     string requirements;
-    bool status;
 public:
     Info();
     Info(string newpass, string newname, string newsurname, int newage, string newsex, int newregisnum, string newabout, string newrequirements);
     friend ostream& operator << (ostream &os, const Info &obj);
     friend istream& operator >> (istream &is, Info &obj);
-    ~Info(){
+    virtual ~Info(){
     };
 };
 

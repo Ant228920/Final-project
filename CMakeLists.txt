@@ -10,4 +10,10 @@ add_executable(final_project main.cpp
         Info.h
         Functions.cpp
         Functions.h
-        Exception.h)
+        Exception.h
+        User.cpp
+        User.h
+        Admin.cpp
+        Admin.h
+        Report.cpp
+        Report.h)

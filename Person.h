@@ -8,18 +8,15 @@ class Person {
 private:
     string name;
     string surname;
-    int age;
-    string sex;
 public:
     Person();
     Person(string newname);
     Person(string newname, string newsurname);
-    Person(string newname, string newsurname, int newage);
-    Person(string newname, string newsurname, int newage, string newsex);
-    friend std::ostream& operator<<(std::ostream &os, const Person &obj);
-    friend istream& operator >>(istream &is, Person &obj);
-    ~Person(){};
+    friend ostream& operator << (ostream &os, const Person &obj);
+    friend istream& operator >> (istream &is, Person &obj);
+    virtual ~Person(){};
     string GetName();
+    void Print();
 };
 
 
