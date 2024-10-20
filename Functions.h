@@ -1,5 +1,5 @@
 #include "Person.h"
-#include "Info.h"
+#include "User.h"
 #include "Admin.h"
 #include "Report.h"
 #include <vector>
@@ -10,20 +10,22 @@
 //    size_t size;
 //};
 //std::vector<Info> LoadAccounts();
-void SignIn(Info);
-std::string GetName(Info& account);
-vector<Info> Vec(vector<Info>& accounts);
-bool ExistCheck(Admin);
+void SignIn();
+std::string GetName(User& account);
+vector<User> Vec(vector<User>& accounts);
+bool ExistCheck();
 void Show();
 void Notifications();
-void AdminCreate(Admin);
-bool AdminEnter(Admin);
+bool AdminCreate();
+bool AdminEnter();
+void DeleteAcc();
+void AdminDelete();
+void ReadCouples();
 void AdminRead();
 void Read();
 void Exit();
 void ReportRead();
 void Reports(string newname);
-void Delete();
-void LogIn();
+bool LogIn();
 
 #endif //FINAL_PROJECT_FUNCTIONS_H

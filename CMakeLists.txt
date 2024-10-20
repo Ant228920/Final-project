@@ -6,14 +6,13 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(final_project main.cpp
         Person.cpp
         Person.h
-        Info.cpp
-        Info.h
+        User.cpp
+        User.h
         Functions.cpp
         Functions.h
         Exception.h
-        User.cpp
-        User.h
         Admin.cpp
         Admin.h
         Report.cpp
-        Report.h)
+        Report.h
+        Banned.h)

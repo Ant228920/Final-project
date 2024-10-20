@@ -11,8 +11,23 @@ public:
     Report();
     Report(string newname);
     Report(string newname, string newabout);
+
+    [[nodiscard]] string getName() const;
+    string getAbout() const;
+    string getStatus() const;
+
+    void setName(const string &newname);
+    void setAbout(const string &newabout);
+    void setStatus(const string &newstatus);
+
+    Report(const Report &other);
+
+    Report(Report &&other) noexcept;
+
     friend ostream& operator << (ostream &os, const Report &obj);
-    ~Report(){};
+    friend istream& operator>>(istream &is, Report &obj);
+
+    virtual ~Report();
 };
 
 

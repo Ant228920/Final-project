@@ -4,8 +4,8 @@
 class Exception: public std::exception{
 public:
     Exception()=default;
-    ~Exception()=default;
-    const char *what() const noexcept override{
+    ~Exception() override =default;
+    [[nodiscard]] const char *what() const noexcept override{
         return "Wrong choice!";
     };
 };
