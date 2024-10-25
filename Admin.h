@@ -20,19 +20,18 @@ public:
     // Конструктор переміщення
     Admin(Admin &&other) noexcept;
 
-    // Сетери
-    void setPassword(const string &newpassword);
+    void setPassword(string &newpassword);
 
-    // Гетери
     string get_name() override;
     string get_surname() override;
     [[nodiscard]] string getPassword() const;
 
-    // Оператор виводу
+    void writeInstructions(const string &text) override {
+        cout << "Something good" << endl;
+    }
     friend ostream& operator<<(ostream &os, const Admin &obj);
     friend istream& operator>>(istream &is, Admin &obj);
 
-    // Деструктор
     ~Admin() override;
 };
 

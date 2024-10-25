@@ -1,90 +1,96 @@
 #include "User.h"
 #include "Functions.h"
 #include "Admin.h"
-#include "Exception.h"
+#include "WrongChoice.h"
 #include <iostream>
-#include <memory>
-#include <vector>
 
 
 int main() {
     int choice;
     int func;
-    //User acc("", "", "", 0, "", 0, "", "");
-    //Admin adm("","","");
     cout << "Welcome! Please press 1 if you are an Admin and 2 if you are a User:" << endl;
     int initial;
     cin >> initial;
 
     if (initial == 1) {
+        line();
         cout << "Please sign up or log in:" << endl;
         cout << "1 - sign in" << endl;
         cout << "2 - log in" << endl;
         cout << "3 - delete and create new account" << endl;
-        bool T = ExistCheck();
-        cout<<T<<endl;
+        line();
+        bool T = existCheck();
         try {
             cin >> choice;
             switch (choice) {
                 case 1:
                     if (T) {
+                        line();
                         cout << "You already have some info" << endl;
-                        AdminEnter();
+                        adminEnter();
+                        line();
                     } else {
-                        AdminCreate();
+                        adminCreate();
                     }
                     break;
                 case 2:
                     if (!T) {
                         cout << "Sorry you don't have an account, please create one" << endl;
-                        AdminCreate();
+                        adminCreate();
                     } else {
-                        AdminEnter();
+                        adminEnter();
                     }
                     break;
                 case 3:
                     if (!T) {
                         cout << "You don't have any accounts" << endl;
-                        AdminCreate();
+                        adminCreate();
                     } else {
-                        AdminDelete();
-                        AdminCreate();
+                        adminDelete();
+                        adminCreate();
                     }
                     break;
+                case 4:
+
                 default:
-                    throw Exception();
+                    throw WrongChoice();
             }
         }
-        catch (Exception &ex) {
+        catch (WrongChoice &ex) {
             cerr << ex.what() << endl;
         }
 
         while (true) {
+            line();
             cout << "Please choose an action:" << endl;
             cout << "1 - See reports" << endl;
             cout << "2 - See couples" << endl;
             cout << "3 - See all users" << endl;
-            cout << "4 - Quit" << endl;
-
+            cout << "4 - Sort users" << endl;
+            cout << "5 - Quit" << endl;
+            line();
             try {
                 cin >> func;
 
                 switch (func) {
                     case 1:
-                        ReportRead();
+                        reportRead();
                         break;
                     case 2:
-                        ReadCouples();
+                        readCouples();
                         break;
                     case 3:
-                        AdminRead();
+                        adminRead();
                         break;
                     case 4:
+                        sort();
+                        break;
+                    case 5:
                         return 0;
                     default:
-                        throw Exception();
+                        throw WrongChoice();
                 }
-            } catch (Exception &ex) {
+            } catch (WrongChoice &ex) {
                 cerr << ex.what() << endl;
             }
         }
@@ -92,17 +98,19 @@ int main() {
 
     if (initial == 2) {
             while (true) {
+                line();
                 cout << "Please sign up or log in:" << endl;
                 cout << "1 - sign in" << endl;
                 cout << "2 - log in" << endl;
+                line();
                 try {
                     cin >> choice;
                     switch (choice) {
                         case 1:
-                            SignIn();
+                            signIn();
                             break;
                         case 2:
-                            if( LogIn()){
+                            if(logIn()){
                                 cout<<"Welcome"<<endl;
                             } else {
                                 cerr << "Incorrect Data";
@@ -110,62 +118,65 @@ int main() {
                             }
                             break;
                         default:
-                            throw Exception();
+                            throw WrongChoice();
                     }
                     break;
                 }
-                catch (Exception &ex) {
+                catch (WrongChoice &ex) {
                     cerr << ex.what() << endl;
                 }
             }
 
             // Друга частина меню (Дії з профілем)
             while (true) {
+                line();
                 cout << "1 - Show your profile" << endl;
                 cout << "2 - View profiles" << endl;
                 cout << "3 - Show notifications" << endl;
                 cout << "4 - Delete account" << endl;
-                cout << "5 - Quit" << endl;
+                cout << "5 - Set status" << endl;
+                cout << "6 - Instruction" << endl;
+                cout << "7 - Edit profile" << endl;
+                cout << "8 - Quit" << endl;
+                line();
 
                 try {
                     cin >> func;
 
                     switch (func) {
                         case 1:
-                            Show();
+                            show();
                             break;
                         case 2:
-                            Read();
+                            read();
                             break;
                         case 3:
-                            Notifications();
+                            notifications();
                             break;
                         case 4:
-                            DeleteAcc();
+                            deleteAcc();
                             return 0;
                         case 5:
-                            Exit();
+                            status();
+                            break;
+                        case 6:
+                            userInstraction();
+                            break;
+                        case 7:
+                            edit();
+                            break;
+                        case 8:
+                            exit();
                             return 0;
                         default:
-                            throw Exception();
+                            throw WrongChoice();
                     }
                 }
-                catch (Exception &ex) {
+                catch (WrongChoice &ex) {
                     cerr << ex.what() << endl;
                 }
             }
          }
-   //Read();
-    //ReportRead();
-    //LogIn();
-
-
-
-    // Демонстрація доступу до збережених акаунтів
-   //Read();
-   //Exit();
-   //Notifications();
-
     return 0;
 }
 

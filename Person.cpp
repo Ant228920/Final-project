@@ -12,6 +12,32 @@ Person::Person(const Person& other)
 Person::Person(Person&& other) noexcept
         : name{std::move(other.name)}, surname{std::move(other.surname)} {}
 
+// Оператор присвоєння копіюванням
+Person& Person::operator=(const Person &other) {
+    if (this == &other) {
+        return *this; // Перевірка на самоприсвоєння
+    }
+
+    // Присвоєння полів
+    this->name = other.name;
+    this->surname = other.surname;
+
+    return *this;
+}
+
+// Оператор присвоєння переміщенням
+Person& Person::operator=(Person &&other) noexcept {
+    if (this == &other) {
+        return *this; // Перевірка на самоприсвоєння
+    }
+
+    // Переміщення полів
+    this->name = std::move(other.name);
+    this->surname = std::move(other.surname);
+
+    return *this;
+}
+
 // Сетери
 void Person::set_name(string &new_name) {
     this->name = new_name;
@@ -43,13 +69,10 @@ istream& operator>>(istream &is, Person &obj) {
 }
 
 // Метод друку
-void Person::Print() {
-    cout << "Name: " << name << ", Surname: " << surname << endl;
-}
 
 // Деструктор
 Person::~Person() {
     ofstream fout(R"(C:\Users\Admin\Desktop\directory_of_cars\database\log.txt)", ios_base::app);
-    fout << name << " destructor"<<endl;
+    fout << name << "destructor"<<endl;
     fout.close();
 }

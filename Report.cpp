@@ -44,7 +44,7 @@ ostream& operator << (ostream &os, const Report &obj) {
     return os;
 }
 istream& operator>>(istream& is, Report& report) {
-    string name, about, status;
+    string name, about;
 
     // Зчитуємо дані з потоку
     if (is >> name) {
@@ -53,8 +53,7 @@ istream& operator>>(istream& is, Report& report) {
     }
 
     // Встановлюємо значення через сетери
-    report.setName(name);
-    report.setAbout(about);
+    report.setName(name);;
 
     return is;
 }
@@ -62,7 +61,7 @@ istream& operator>>(istream& is, Report& report) {
 
 // Деструктор
 Report::~Report() noexcept {
-    ofstream fout(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
-    fout << "car destructor" << endl;
+    ofstream fout(R"(D:\oop labs\final project\files\log.txt)", ios_base::app);
+    fout << "report destructor" << endl;
     fout.close();
 }

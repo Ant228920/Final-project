@@ -13,10 +13,11 @@ private:
     string about;
     string requirements;
     std::string registrationDate;
+    string status;
 public:
     User();
     User(string newname, string newsurname);
-    User(string newpass, string newname, string newsurname, int newage, string newsex, int newregisnum, string newabout, string newrequirements, string newregistrationdate);
+    User(string newpass, string newname, string newsurname, int newage, string newsex, int newregisnum, string newregistrationdate, string newstatus, string newabout, string newrequirements);
 
     // Конструктор копіювання
     User(const User &other);
@@ -24,6 +25,10 @@ public:
     // Конструктор переміщення
     User(User &&other) noexcept;
 
+    User& operator=(const User &other);
+
+// Оператор присвоєння переміщенням
+    User& operator=(User &&other) noexcept;
     // Гетери
     string get_name() override;
     string get_surname() override;
@@ -34,7 +39,11 @@ public:
     [[nodiscard]] string getAbout() const;
     [[nodiscard]] string getRequirements() const;
     [[nodiscard]] string getRegistrationDate() const;
+    [[nodiscard]] string getStatus() const;
 
+    void writeInstructions(const string &text) override {
+        cout << "Something good" << endl;
+    }
     // Сетери
     void set_name(string& new_name) override;
     void set_surname(string& new_surname) override;
@@ -45,7 +54,11 @@ public:
     void setAbout(const string &newabout);
     void setRequirements(const string &newrequirements);
     void setRegistrationDate(const string &newrequirements);
+    void setStatus(const string &newstatus);
 
+    void printAll();
+    int subtractFromAge();
+    int addToAge();
     // Оператор виводу
     friend ostream& operator<<(ostream &os, const User &obj);
 

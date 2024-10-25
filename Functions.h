@@ -5,27 +5,27 @@
 #include <vector>
 #ifndef FINAL_PROJECT_FUNCTIONS_H
 #define FINAL_PROJECT_FUNCTIONS_H
-//struct AccountsResult {
-//    std::vector<Info> accounts;
-//    size_t size;
-//};
-//std::vector<Info> LoadAccounts();
-void SignIn();
+void signIn();
 std::string GetName(User& account);
 vector<User> Vec(vector<User>& accounts);
-bool ExistCheck();
-void Show();
-void Notifications();
-bool AdminCreate();
-bool AdminEnter();
-void DeleteAcc();
-void AdminDelete();
-void ReadCouples();
-void AdminRead();
-void Read();
-void Exit();
-void ReportRead();
-void Reports(string newname);
-bool LogIn();
+bool existCheck();
+void show();
+void notifications();
+bool adminCreate();
+void status();
+void sort();
+void instraction();
+void line();
+bool adminEnter();
+void deleteAcc();
+void adminDelete();
+void readCouples();
+void adminRead();
+void read();
+void exit();
+void edit();
+void reportRead();
+void reports(string newname);
+bool logIn();
 
 #endif //FINAL_PROJECT_FUNCTIONS_H

@@ -8,21 +8,62 @@ User::User() : Person(), age(0), sex(""), pass(""), regisnum(0), about(""), requ
 // Параметризований конструктор
 User::User(string newname, string newsurname)
         : Person(newname, newsurname) {};
-User::User(string newpass, string newname, string newsurname, int newage, string newsex, int newregisnum, string newabout, string newrequirements, string newregistrationdate)
-        : Person(newname, newsurname), age(newage), sex(std::move(newsex)), pass(std::move(newpass)), regisnum(newregisnum), about(std::move(newabout)), requirements(std::move(newrequirements)), registrationDate(std::move(newregistrationdate)) {}
+User::User(string newpass, string newname, string newsurname, int newage, string newsex, int newregisnum, string newregistrationdate, string newstatus, string newabout, string newrequirements)
+        : Person(newname, newsurname), age(newage), sex(std::move(newsex)), pass(std::move(newpass)), regisnum(newregisnum), registrationDate(std::move(newregistrationdate)), status(std::move(newstatus)), about(std::move(newabout)), requirements(std::move(newrequirements)) {}
 
 // Конструктор копіювання
 User::User(const User &other)
-        : Person(other), age(other.age), sex(other.sex), pass(other.pass), regisnum(other.regisnum), about(other.about), requirements(other.requirements) {
+        : Person(other), age(other.age), sex(other.sex), pass(other.pass), regisnum(other.regisnum), registrationDate(other.registrationDate), status(other.status), about(other.about), requirements(other.requirements) {
 }
 
 // Конструктор переміщення
 User::User(User &&other) noexcept
-        : Person(std::move(other)), age(other.age), sex(std::move(other.sex)), pass(std::move(other.pass)), regisnum(other.regisnum), about(std::move(other.about)), requirements(std::move(other.requirements)) {
+        : Person(std::move(other)), age(other.age), sex(std::move(other.sex)), pass(std::move(other.pass)), regisnum(other.regisnum),  registrationDate(std::move(other.registrationDate)),  status(std::move(other.status)), about(std::move(other.about)), requirements(std::move(other.requirements)) {
     other.age = 0;
     other.regisnum = 0;
 }
 
+User& User::operator=(const User &other) {
+    if (this == &other) {
+        return *this; // Перевірка на самоприсвоєння
+    }
+
+    // Присвоюємо всі дані з іншого об'єкта
+    this->age = other.age;
+    this->sex = other.sex;
+    this->pass = other.pass;
+    this->regisnum = other.regisnum;
+    this->about = other.about;
+    this->requirements = other.requirements;
+    this->registrationDate = other.registrationDate;
+    this->status = other.status;
+
+    // Не забуваємо викликати оператор присвоєння для базового класу
+    Person::operator=(other);
+
+    return *this;
+}
+
+User& User::operator=(User &&other) noexcept {
+    if (this == &other) {
+        return *this; // Перевірка на самоприсвоєння
+    }
+
+    // Переміщуємо всі дані з іншого об'єкта
+    this->age = other.age;
+    this->sex = std::move(other.sex);
+    this->pass = std::move(other.pass);
+    this->regisnum = other.regisnum;
+    this->about = std::move(other.about);
+    this->requirements = std::move(other.requirements);
+    this->registrationDate = std::move(other.registrationDate);
+    this->status = std::move(other.status);
+
+    // Викликаємо переміщувальний оператор присвоєння для базового класу
+    Person::operator=(std::move(other));
+
+    return *this;
+}
 // Гетери
 string User::get_name() {
     return Person::get_name();
@@ -56,6 +97,9 @@ string User::getRequirements() const {
 }
 string User::getRegistrationDate() const {
     return registrationDate;
+}
+string User::getStatus() const{
+    return status;
 }
 // Сетери
 void User::set_name(string &newname) {
@@ -92,22 +136,51 @@ void User::setRequirements(const string &newrequirements) {
 void User::setRegistrationDate(const string &newregistrationDate) {
     registrationDate = newregistrationDate;
 }
+void User::setStatus(const string &newstatus) {
+    status = newstatus;
+}
+// Оператор виводу
 // Оператор виводу
 ostream& operator<<(ostream &os, const User &obj) {
-    os <<obj.pass << endl << static_cast<const Person&>(obj) << endl << obj.age << endl << obj.sex << endl
-        << obj.regisnum << endl << obj.about << endl
-        << obj.requirements << endl
-        <<obj.registrationDate << endl;
+        os << obj.pass << endl
+       << static_cast<const Person&>(obj) << endl
+       << obj.age << endl
+       << obj.sex << endl
+       << obj.regisnum << endl
+       << obj.registrationDate << endl
+       << obj.status << endl
+       << obj.about << endl
+       << obj.requirements << endl;
+         // Додаємо виведення статусу
     return os;
 }
 
+void User::printAll(){
+    cout << "Name: " << get_name() << endl;
+    cout << "Surname: " << get_surname() << endl;
+    cout << "Age: " << getAge() << endl;
+    cout << "Sex: " << getSex() << endl;
+    cout << "Registration number: " << getRegisnum() << endl;
+    cout << "About: " << getAbout() << endl;
+    cout << "Requirements: " << getRequirements() << endl;
+}
+int User::subtractFromAge() {
+    age -= 3;
+    if (age < 0) age = 0;  // Якщо вік стане від'ємним, то робимо його 0
+    return age;            // Повертаємо новий вік
+}
+
+// Функція для додавання 3 до віку і повернення нового значення віку
+int User::addToAge() {
+    age += 3;
+    return age;            // Повертаємо новий вік
+}
 // Оператор вводу
 istream& operator>>(std::istream& is, User& user) {
-    is >> user.pass >> static_cast<Person &>((Person &) user) >> user.age >> user.sex >> user.regisnum;
+    is >> user.pass >> static_cast<Person &>((Person &) user) >> user.age >> user.sex >> user.regisnum >> user.registrationDate >> user.status;
     is.ignore(); // Ігноруємо символ нової строки після регіснума
     std::getline(is, user.about);
     std::getline(is, user.requirements);
-    is >> user.registrationDate;
     return is;
 }
 
@@ -115,7 +188,7 @@ istream& operator>>(std::istream& is, User& user) {
 
 // Деструктор
 User::~User() noexcept {
-    ofstream fout(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
-    fout << "car destructor" << endl;
+    ofstream fout(R"(D:\oop labs\final project\files\log.txt)", ios_base::app);
+    fout << "user destructor" << endl;
     fout.close();
 }

@@ -10,9 +10,10 @@ add_executable(final_project main.cpp
         User.h
         Functions.cpp
         Functions.h
-        Exception.h
+        WrongChoice.h
         Admin.cpp
         Admin.h
         Report.cpp
         Report.h
-        Banned.h)
+        Banned.h
+        Instructions.h)

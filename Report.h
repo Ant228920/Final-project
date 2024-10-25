@@ -13,12 +13,10 @@ public:
     Report(string newname, string newabout);
 
     [[nodiscard]] string getName() const;
-    string getAbout() const;
-    string getStatus() const;
+    [[nodiscard]] string getAbout() const;
 
     void setName(const string &newname);
     void setAbout(const string &newabout);
-    void setStatus(const string &newstatus);
 
     Report(const Report &other);
 

@@ -19,7 +19,7 @@ Admin::Admin(Admin &&other) noexcept
 }
 
 // Сетери
-void Admin::setPassword(const string &newpassword) {
+void Admin::setPassword(string &newpassword) {
     password = newpassword;
 }
 
@@ -35,6 +35,7 @@ string Admin::getPassword() const {
     return password;
 }
 
+
 // Оператор виводу
 ostream& operator<<(ostream &os, const Admin &obj) {
     os << static_cast<Person &>((Person &) obj) << endl << obj.password;
@@ -47,7 +48,7 @@ istream& operator>>(istream& is, Admin& admin) {
 }
 
 Admin::~Admin() noexcept {
-    ofstream fout(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
-    fout << "car destructor" << endl;
+    ofstream fout(R"(D:\oop labs\final project\files\log.txt)", ios_base::app);
+    fout << "admin destructor" << endl;
     fout.close();
 }

@@ -1,10 +1,11 @@
 #include <iostream>
+#include "Instructions.h"
 #ifndef FINAL_PROJECT_PERSON_H
 #define FINAL_PROJECT_PERSON_H
 
 
 using namespace std;
-class Person {
+class Person : public Instructions {
 private:
     string name;
     string surname;
@@ -17,6 +18,11 @@ public:
 
     // Конструктор переміщення
     Person(Person &&other) noexcept;
+
+    Person& operator=(const Person &other);
+
+    // Оператор присвоєння переміщенням
+    Person& operator=(Person &&other) noexcept;
 
     // Сетери
     virtual string get_name()=0;
@@ -33,7 +39,7 @@ public:
     friend istream& operator>>(istream &is, Person &obj);
 
     // Інші методи
-    void Print();
+    void writeInstructions(const string &text) override {}
 
     // Деструктор
     virtual ~Person();
