@@ -1,5 +1,7 @@
 #include <iostream>
 #include "Person.h"
+#include "Instructions.h"
+#include <fstream>
 #ifndef FINAL_PROJECT_INFO_H
 #define FINAL_PROJECT_INFO_H
 
@@ -19,17 +21,13 @@ public:
     User(string newname, string newsurname);
     User(string newpass, string newname, string newsurname, int newage, string newsex, int newregisnum, string newregistrationdate, string newstatus, string newabout, string newrequirements);
 
-    // Конструктор копіювання
     User(const User &other);
 
-    // Конструктор переміщення
     User(User &&other) noexcept;
 
     User& operator=(const User &other);
-
-// Оператор присвоєння переміщенням
     User& operator=(User &&other) noexcept;
-    // Гетери
+
     string get_name() override;
     string get_surname() override;
     [[nodiscard]] int getAge() const;
@@ -41,10 +39,22 @@ public:
     [[nodiscard]] string getRegistrationDate() const;
     [[nodiscard]] string getStatus() const;
 
-    void writeInstructions(const string &text) override {
-        cout << "Something good" << endl;
+    void writeText(const string &filePath) override {
+        ifstream file(filePath);
+
+        if (!file.is_open()) {
+            cerr << "Error: could not open the file." << endl;
+            return;
+        }
+
+        string line;
+        while (getline(file, line)) {  // Зчитуємо кожен рядок
+            cout << line << endl;      // Виводимо рядок на екран
+        }
+
+        file.close();
     }
-    // Сетери
+
     void set_name(string& new_name) override;
     void set_surname(string& new_surname) override;
     void setAge(int newage);
@@ -59,13 +69,11 @@ public:
     void printAll();
     int subtractFromAge();
     int addToAge();
-    // Оператор виводу
+
     friend ostream& operator<<(ostream &os, const User &obj);
 
-    // Оператор вводу
     friend istream& operator>>(istream &is, User &user);
 
-    // Деструктор
     ~User() override;
 };
 

@@ -100,7 +100,6 @@ void signIn() {
     std::shared_ptr<std::string> registrationDate{new std::string{getCurrentDateTime()}};
     std::shared_ptr<std::string> status{new string{"Active"}};
 
-    // Передаємо дату реєстрації в об'єкт User (припустимо, що його конструктор підтримує це поле)
     User newAccount(*newpass, *name, *surname, *age, *sex, *regisnum, *registrationDate, *status, *about, *requirements);
 
     std::ofstream fileOut(R"(D:\oop labs\final project\files\Selected.txt)",
@@ -118,16 +117,16 @@ bool isEmpty(){
 void adminCreate(){
     cout<<"OK, write down the information"<<endl;
     shared_ptr <string> name {new string {""}};
-    cout<<"Enter your new name: ";
+    cout<<"Enter your new name:";
     cin>>*name;
     shared_ptr <string> surname {new string {""}};
-    cout<<"Enter your surname: ";
+    cout<<"Enter your surname:";
     cin>>*surname;
     shared_ptr <string> pass {new string {""}};
-    cout<<"Enter password: ";
+    cout<<"Enter password:";
     cin>>*pass;
     shared_ptr <string> reppass {new string {""}};
-    cout<<"Now please repeat your password: ";
+    cout<<"Now please repeat your password:";
     do{
         cin>>*reppass;
     }while(*reppass!=*pass);
@@ -154,14 +153,23 @@ bool existCheck(){
     return T;
 }
 void adminDelete() {
-    ofstream fin(R"(D:\oop labs\final project\files\Admin.txt)",
-                 ios_base::trunc);
-
-    if (fin.is_open()) {
-        fin << "";
-
-        fin.close();
-        cout << "Your account is successfully deleted"<<endl;
+    ifstream fin(R"(D:\oop labs\final project\files\Admin.txt)");
+    cout << "Enter password:";
+    shared_ptr<string> password {new string{""}};
+    cin >> *password;
+    Admin admin;
+    while(fin >> admin) {
+        if (admin.getPassword() == *password) {
+            ofstream fout(R"(D:\oop labs\final project\files\Admin.txt)",
+                          ios_base::trunc);
+            if (fout.is_open()) {
+                fout << "";
+                cout << "Your account is successfully deleted" << endl;
+            }
+            fout.close();
+        } else {
+            cout << "Wrong password!" << endl;
+        }
     }
 }
 void adminEnter(){
@@ -175,27 +183,28 @@ void adminEnter(){
     Admin admin(*name, *surname, *pass);
     while(fin >> admin){
         if(admin.getPassword() == *parol){
-            cout<<"Welcome"<<endl;
+            cout << "Welcome" <<  endl;
         }
         else{
-            cerr << "Wrong password";
+            cerr << "Wrong password" << endl;
         }
     }
 }
 void readCouples(){
     int i = 1;
-    ifstream fin(R"(D:\oop labs\ooplab1\files\Couples.txt)",ios_base::app);
+    ifstream fin(R"(D:\oop labs\final project\files\Couples.txt)",ios_base::app);
     shared_ptr<string> name{new string {""}};
     shared_ptr<string> givername{new string {""}};
     while(fin >> *name >> *givername) {
-        cout << i << "Couple" << *name << "and" << *givername;
+        cout << i << " Couple: " << *name << " and " << *givername << endl;
         i++;
     }
     fin.close();
 }
-void instraction(){
+void instruction(){
     User user;
-    user.writeInstructions("some");
+    string filePath = R"(D:\oop labs\final project\files\instruction.txt)";
+    user.writeText(filePath);
 }
 void choice(const string& newname) {
     ifstream fin(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::app);
@@ -203,24 +212,12 @@ void choice(const string& newname) {
         cerr << "Error" << endl;
     } else {
         std::shared_ptr<std::string> newpass{new std::string{""}};
-
         std::shared_ptr<std::string> name{new std::string{""}};
-
-
         std::shared_ptr<std::string> surname{new std::string{""}};
-
-
         std::shared_ptr<int> age{new int{0}};
-
-
         std::shared_ptr<std::string> sex{new std::string{""}};
-
-
         std::shared_ptr<int> regisnum{new int{0}};
-
-
         std::shared_ptr<std::string> about{new std::string{""}};
-
         std::shared_ptr<std::string> requirements{new std::string{""}};
         while (fin >> *newpass >> *name >> *surname >> *age >> *sex >> *regisnum) {
             fin.ignore();
@@ -243,10 +240,10 @@ void adminRead(){
         User user;
         int i = 1;
         while (finE >> user) {
-            cout <<"----------Profile: " << i << "-----------";
+            cout <<"----------Profile: " << i << "-----------" << endl;
             user.printAll();
+            cout << "Data of registration: " << user.getRegistrationDate() << endl;
             i++;
-            line();
         }
     }
     finE.close();
@@ -268,6 +265,8 @@ void sortByAge(){
         for (const auto &record: records) {
             foutdel << record << endl; // Переконайтеся, що оператор << правильно записує всі поля
         }
+        cout << "Sorted by age" << endl;
+        adminRead();
         foutdel.close();
     }
     finE.close();
@@ -288,6 +287,8 @@ void sortByDate(){
         for (const auto &record: records) {
             foutdel << record << endl; // Переконайтеся, що оператор << правильно записує всі поля
         }
+        cout << "Sorted by date" << endl;
+        adminRead();
         foutdel.close();
     }
     finE.close();
@@ -343,28 +344,14 @@ void unBan(const string& deletename){
 }
 void ban(const string& deletename){
     ifstream fin(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
-    shared_ptr<string> pass{new string{""}};
-    shared_ptr<string> name{new string{""}};
-    shared_ptr<string> surname{new string{""}};
-    shared_ptr<int> age{new int{0}};
-    shared_ptr<string> sex{new string{""}};
-    shared_ptr<int> regisnum{new int{0}};
-    shared_ptr<string> about{new string{""}};
-    shared_ptr<string> requirements{new string{""}};
-    std::shared_ptr<std::string> registrationDate{new std::string{getCurrentDateTime()}};
-    std::shared_ptr<std::string> status{new std::string{""}};
     bool found = false;
-    User acc(*pass, *name, *surname, *age, *sex, *regisnum, *about, *requirements, *registrationDate, *status);
+    User acc;
     vector<User> vec;
-    while (fin >> *pass >> *name >> *surname >> *age >> *sex >> *regisnum >> *registrationDate) {
-        fin.ignore();
-
-        std::getline(fin, *about);
-        std::getline(fin, *requirements);
-        if (*name == deletename) {
+    while (fin >> acc){
+        if (acc.get_name() == deletename) {
             found = true;
         } else {
-            vec.emplace_back(*pass, *name, *surname, *age, *sex, *regisnum, *about, *requirements, *registrationDate, *status);
+            vec.emplace_back(acc.getPass(), acc.get_name(), acc.get_surname(), acc.getAge(), acc.getSex(), acc.getRegisnum(), acc.getRegistrationDate(), acc.getStatus(), acc.getAbout(), acc.getRequirements());
         }
     }
     fin.close();
@@ -385,24 +372,15 @@ void deleteAcc(){
         cerr << "Error opening file: " << endl;
     }
     else {
-        shared_ptr<string> pass{new string{""}};
-        shared_ptr<string> name{new string{""}};
-        shared_ptr<string> surname{new string{""}};
-        shared_ptr<int> age{new int{0}};
-        shared_ptr<string> sex{new string{""}};
-        shared_ptr<int> regisnum{new int{0}};
-        shared_ptr<string> about{new string{""}};
-        shared_ptr<string> requirements{new string{""}};
-        std::shared_ptr<std::string> registrationDate{new std::string{getCurrentDateTime()}};
-        std::shared_ptr<std::string> status{new std::string{""}};
         shared_ptr<string> verify{new string{""}};
-        cout << "Enter a password, to pass verification";
+        cout << "Enter a password, to pass verification:";
         cin >> *verify;
-        User user(*pass, *name, *surname, *age, *sex, *regisnum, *about, *requirements, * registrationDate, *status);
+        User user;
         while (finE >> user) {
             if (user.getPass() == *verify)
             {
-                cout << "Verification passed";
+                cout << "Verification passed" << endl;
+                cout << "Account is successfully deleted" << endl;
                 ofstream fout(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::trunc);
                 fout<<"";
                 fout.close();
@@ -438,24 +416,17 @@ void reportRead() {
 
         std::shared_ptr<std::string> reporttext{new std::string{""}};
 
-        Report rep(*repname, *reporttext);
+        Report rep;
         while (fin >> rep) {
             ifstream finAcc(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
-            shared_ptr<string> pass{new string{""}};
-            shared_ptr<string> name{new string{""}};
-            shared_ptr<string> surname{new string{""}};
-            shared_ptr<int> age{new int{0}};
-            shared_ptr<string> sex{new string{""}};
-            shared_ptr<int> regisnum{new int{0}};
-            shared_ptr<string> about{new string{""}};
-            shared_ptr<string> requirements{new string{""}};
-            std::shared_ptr<std::string> registrationDate{new std::string{getCurrentDateTime()}};
-            std::shared_ptr<std::string> status{new std::string{""}};
-            User user(*pass, *name, *surname, *age, *sex, *regisnum, *about, *requirements, *registrationDate, *status);
+            User user;
             while (finAcc >> user) {
                 if (rep.getName() == user.get_name()) {
                     int choice;
-                    cout << user;
+                    line();
+                    user.printAll();
+                    cout << "Reason for report: " << rep.getAbout() << endl;
+                    line();
                     cout << "1 - Ban" << endl << "2 - unBan" << endl;
                     cin >> choice;
                     try {
@@ -565,18 +536,17 @@ void status() {
 
 }
 
-int edit() {
+void edit() {
     std::ifstream finE(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::in);
     if (!finE.is_open()) {
         std::cerr << "Error opening file." << std::endl;
-        return 0;
+        return;
     }
 
     User user1;
     while (finE >> user1) {
-        std::ofstream fout(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::trunc);
         int choice;
-        cout << "Please enter your password: ";
+        cout << "Please enter your password:";
 
         shared_ptr<string> pass{new string{""}};
         shared_ptr<string> newname{new string{""}};
@@ -590,6 +560,7 @@ int edit() {
         cin.ignore();
 
         if (user1.getPass() == *pass) {
+            std::ofstream fout(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::trunc);
             cout << "1 - Change general information(name, surname, age, sex)" << endl;
             cout << "2 - Change description" << endl;
             cin >> choice;
@@ -610,36 +581,37 @@ int edit() {
                     if (option == 1) {
                         int option2;
                         do {
-                            cout << "Write new name: ";
+                            cout << "Write new name:";
                             cin >> *newname;
                             user1.set_name(*newname);
 
-                            cout << "Write new surname: ";
+                            cout << "Write new surname:";
                             cin >> *newsurname;
                             user1.set_surname(*newsurname);
 
-                            cout << "Write new age: ";
+                            cout << "Write new age:";
                             cin >> *newage;
                             user1.setAge(*newage);
 
-                            cout << "Write new sex (Male/Female): ";
+                            cout << "Write new sex (Male/Female):";
                             cin >> *newsex;
                             user1.setSex(*newsex);
 
-                            cout << "Is it correct? (1 - Yes, 2 - No): " << endl;
+
                             line();
                             user1.printAll();
                             line();
+                            cout << "Is it correct? (1 - Yes, 2 - No):" << endl;
                             cin >> option2;
 
                         } while (option2 == 2);
 
                         fout << user1 << endl;
-                        fout.close();
                         cout << "Profile is successfully changed!" << endl;
-                        return 0;
+                        fout.close();
+                        return;
                     }
-                    if(option == 2){
+                    if (option == 2) {
                         cout << "Left current" << endl;
                         fout << user1;
                     }
@@ -654,32 +626,32 @@ int edit() {
                     cout << "1 - Change information" << endl;
                     cout << "2 - Leave current" << endl;
                     cin >> option;
-                    if(option == 1) {
+                    if (option == 1) {
                         int option2;
                         do {
-                            cout << "Write new description: ";
+                            cout << "Write new description:";
                             cin.ignore();
                             getline(cin, *newabout);
                             user1.setAbout(*newabout);
 
-                            cout << "Write new requirements: ";
+                            cout << "Write new requirements:";
                             getline(cin, *newrequirements);
                             user1.setRequirements(*newrequirements);
 
-                            cout << "Is it correct? (1 - Yes, 2 - No): " << endl;
                             line();
                             user1.printAll();
                             line();
+                            cout << "Is it correct? (1 - Yes, 2 - No):" << endl;
                             cin >> option2;
 
-                        } while (option2 == 2); // Якщо користувач вибирає 2, почнемо введення даних знову
+                        } while (option2 == 2);
 
                         fout << user1 << endl;
-                        fout.close();
                         cout << "Profile is successfully changed!" << endl;
-                        return 0;
+                        fout.close();
+                        return;
                     }
-                    if(option == 2){
+                    if (option == 2) {
                         cout << "Left current" << endl;
                         fout << user1;
                     }
@@ -688,12 +660,16 @@ int edit() {
                 default:
                     throw WrongChoice();
             }
+            fout.close();
         }
-        fout.close();
+        else{
+            cout << "Wrong password" << endl;
+        }
+
     }
     finE.close();
-    return 0;
 }
+
 
 
 bool checking(const string& sercname) {
@@ -737,18 +713,8 @@ void read() {
         cerr << "Error opening file: " << endl;
     } else {
         int num;
-        shared_ptr<string> pass{new string{""}};
-        shared_ptr<string> name{new string{""}};
-        shared_ptr<string> surname{new string{""}};
-        shared_ptr<int> age{new int{0}};
-        shared_ptr<string> sex{new string{""}};
-        shared_ptr<int> regisnum{new int{0}};
-        shared_ptr<string> about{new string{""}};
-        shared_ptr<string> requirements{new string{""}};
         shared_ptr<string> search{new string{""}};
-        std::shared_ptr<std::string> registrationDate{new std::string{getCurrentDateTime()}};
-        std::shared_ptr<std::string> status{new std::string{""}};
-        User user(*pass, *name, *surname, *age, *sex, *regisnum, *about, *requirements, *registrationDate, *status);
+        User user;
         cout << "Are you looking for man of female?" << endl;
         cout << "1 - Male" << endl << "2 - Female" << endl;
         cin >> num;
@@ -763,17 +729,17 @@ void read() {
                 default:
                    throw WrongChoice();
         }
-
+        int i=1;
         while (finE >> user) {
             ifstream finSelect(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::in);
             if (!finE.is_open()) {
                 cerr << "Error opening file: " << endl;
             }
             User user1;
-            int i=1;
+
             while (finSelect >> user1) {
-                if (*search == user.getSex() && user.getStatus() == "Active" && user1.getAge() >= user.subtractFromAge() && user1.getAge() <= user.addToAge()) {
-                    if (user1.subtractFromAge() <= user.getAge() < user1.addToAge()) {
+                if (*search == user.getSex() && user.getStatus() == "Active") {
+                    if (user1.subtractFromAge() <= user.getAge() <= user1.addToAge()) {
                         if (checking(user.get_name())) {
                             int option;
                             cout <<"----------Profile:" << i << "-----------" << endl;
@@ -948,7 +914,7 @@ void exit() {
 }
 
 bool logIn() {
-    ifstream fin(R"(D:\oop labs\final project\files\Info.txt)"); // Видалено ios_base::app
+    ifstream fin(R"(D:\oop labs\final project\files\Info.txt)");
     if (!fin.is_open()) {
         cerr << "Error" << endl;
         return false;
@@ -961,17 +927,20 @@ bool logIn() {
         shared_ptr<string> newname{new string{""}};
         cout << "Enter name:";
         cin >> *newname;
-
-        std::shared_ptr<std::string> newpass{new std::string{""}};
-        std::shared_ptr<std::string> name{new std::string{""}};
-        std::shared_ptr<std::string> surname{new std::string{""}};
-        std::shared_ptr<int> age{new int{0}};
-        std::shared_ptr<std::string> sex{new std::string{""}};
-        std::shared_ptr<int> regisnum{new int{0}};
-        std::shared_ptr<std::string> about{new std::string{""}};
-        std::shared_ptr<std::string> requirements{new std::string{""}};
-        std::shared_ptr<std::string> registrationDate{new std::string{""}};
-        std::shared_ptr<std::string> status{new std::string{""}};
+        ifstream reportsFile(R"(D:\oop labs\final project\files\Reports.txt)");
+        Report report;
+        while (reportsFile >> report) {
+            try {
+                if (report.getName() == *newname) {
+                    throw Banned();
+                }
+            }
+            catch (Banned &ex){
+                cerr << ex.what() << endl;
+                return false;
+            }
+        }
+        reportsFile.close();
         bool found = false;
         vector<User> records;
         User user;
@@ -992,11 +961,12 @@ bool logIn() {
         if (found) {
             ofstream foutdel(R"(D:\oop labs\final project\files\Info.txt)", ios_base::trunc);
             for (const auto &record: records) {
-                foutdel << record << endl; // Переконайтеся, що оператор << правильно записує всі поля
+                foutdel << record << endl;
             }
             foutdel.close();
             return true;
         } else {
+            cerr << "Wrong password!" << endl;
             return false;
         }
 

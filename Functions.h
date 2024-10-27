@@ -2,19 +2,16 @@
 #include "User.h"
 #include "Admin.h"
 #include "Report.h"
-#include <vector>
 #ifndef FINAL_PROJECT_FUNCTIONS_H
 #define FINAL_PROJECT_FUNCTIONS_H
 void signIn();
-std::string GetName(User& account);
-vector<User> Vec(vector<User>& accounts);
 bool existCheck();
 void show();
 void notifications();
 bool adminCreate();
 void status();
 void sort();
-void instraction();
+void instruction();
 void line();
 bool adminEnter();
 void deleteAcc();

@@ -10,14 +10,10 @@ class Admin : public Person {
 private:
     string password;
 public:
-    // Конструктори
     Admin();
     Admin(string newname, string newsurname, string newpassword);
 
-    // Конструктор копіювання
     Admin(const Admin &other);
-
-    // Конструктор переміщення
     Admin(Admin &&other) noexcept;
 
     void setPassword(string &newpassword);
@@ -26,9 +22,6 @@ public:
     string get_surname() override;
     [[nodiscard]] string getPassword() const;
 
-    void writeInstructions(const string &text) override {
-        cout << "Something good" << endl;
-    }
     friend ostream& operator<<(ostream &os, const Admin &obj);
     friend istream& operator>>(istream &is, Admin &obj);
 

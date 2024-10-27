@@ -1,0 +1,26 @@
+1) Program
+	- Language of this program is English. So pay attention on entering data only in English!
+	- You choose options only by numbers.
+
+2) Main menu:
+
+First you have to choose, if you are admin or a user, then you register if you don't have an account or authorize if you have.
+
+3) Functions
+
+3.1 Admin
+	1 - See reports(To see all the reports for users, and than decide ,wether to ban the user or to remove the report)
+	2 - See couples(To see all the couples)
+	3 - See all users(To see all the users)
+	4 - Sort users(To sort users by age or by date of registration)
+	5 - Quit(To quit the program)
+3.2 User
+	1 - Show your profile(To see your profile)
+	2 - View profiles(To search for other profiles, which are filtered by sex and age, with possibility to like, skip, or report the other's person profile)
+	3 - Show notifications(To see wether someone liked your profile, and to give a like in return or to skip)
+	4 - Delete account(To delete account)
+	5 - Set status(To set a status, where if you are inactive, other users won't see your profile)
+	6 - Edit profile(To edit your profile)
+	7 - Quit(To quit the program)
+
+Pay attention to enter the correct data type, but it would be checked and you may enter it again!

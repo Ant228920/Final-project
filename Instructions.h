@@ -5,9 +5,8 @@ using namespace std;
 
 class Instructions {
 public:
-    virtual void writeInstructions(const string &text) = 0;
+    virtual void writeText(const string &filePath) = 0;
 
-    // Віртуальний деструктор, необхідний для інтерфейсів
     virtual ~Instructions() = default;
 };
 
