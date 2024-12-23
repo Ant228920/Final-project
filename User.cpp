@@ -5,7 +5,7 @@
 User::User() : Person(), age(0), sex(""), pass(""), regisnum(0), about(""), requirements("") {}
 
 User::User(string newname, string newsurname)
-        : Person(newname, newsurname) {};
+        : Person(newname, newsurname){}
 User::User(string newpass, string newname, string newsurname, int newage, string newsex, int newregisnum, string newregistrationdate, string newstatus, string newabout, string newrequirements)
         : Person(newname, newsurname), age(newage), sex(std::move(newsex)), pass(std::move(newpass)), regisnum(newregisnum), registrationDate(std::move(newregistrationdate)), status(std::move(newstatus)), about(std::move(newabout)), requirements(std::move(newrequirements)) {}
 
@@ -146,7 +146,6 @@ ostream& operator<<(ostream &os, const User &obj) {
        << obj.requirements << endl;
     return os;
 }
-
 void User::printAll(){
     cout << "Name: " << get_name() << endl;
     cout << "Surname: " << get_surname() << endl;
@@ -156,15 +155,17 @@ void User::printAll(){
     cout << "About: " << getAbout() << endl;
     cout << "Requirements: " << getRequirements() << endl;
 }
-int User::subtractFromAge() {
-    age -= 3;
-    if (age < 0) age = 0;
-    return age;
+int User::subtractFromAge() const {
+    int substract;
+    substract = age - 3;
+    if (substract < 0) substract = 0;
+    return substract;
 }
 
-int User::addToAge() {
-    age += 3;
-    return age;
+int User::addToAge() const {
+    int add;
+     add = age+3;
+    return add;
 }
 
 istream& operator>>(std::istream& is, User& user) {
@@ -176,7 +177,7 @@ istream& operator>>(std::istream& is, User& user) {
 }
 
 User::~User() noexcept {
-    ofstream fout(R"(D:\oop labs\final project\files\log.txt)", ios_base::app);
+    ofstream fout("files\\log.txt", ios_base::app);
     fout << "user destructor" << endl;
     fout.close();
 }

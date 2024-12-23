@@ -48,8 +48,8 @@ public:
         }
 
         string line;
-        while (getline(file, line)) {  // Зчитуємо кожен рядок
-            cout << line << endl;      // Виводимо рядок на екран
+        while (getline(file, line)) {
+            cout << line << endl;
         }
 
         file.close();
@@ -67,8 +67,8 @@ public:
     void setStatus(const string &newstatus);
 
     void printAll();
-    int subtractFromAge();
-    int addToAge();
+    [[nodiscard]] int subtractFromAge() const;
+    [[nodiscard]] int addToAge() const;
 
     friend ostream& operator<<(ostream &os, const User &obj);
 

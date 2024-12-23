@@ -20,7 +20,7 @@ void line(){
     cout << "------------------------" << endl;
 }
 template <typename T>
-static T get_input(T& value) {
+T get_input(T& value) {
     while (true) {
         cin>>value;
         if (cin.fail()) {
@@ -102,7 +102,7 @@ void signIn() {
 
     User newAccount(*newpass, *name, *surname, *age, *sex, *regisnum, *registrationDate, *status, *about, *requirements);
 
-    std::ofstream fileOut(R"(D:\oop labs\final project\files\Selected.txt)",
+    std::ofstream fileOut("files\\Selected.txt",
                          ios_base::app);
 
     fileOut<<newAccount<<endl;
@@ -111,7 +111,7 @@ void signIn() {
 }
 
 bool isEmpty(){
-    ifstream fin(R"(D:\oop labs\final project\files\Couples.txt)", ios::binary | ios::ate);
+    ifstream fin("files\\Couples.txt", ios::binary | ios::ate);
     return fin.tellg() == 0;
 }
 void adminCreate(){
@@ -131,14 +131,14 @@ void adminCreate(){
         cin>>*reppass;
     }while(*reppass!=*pass);
     Admin adm(*name, *surname, *pass);
-    ofstream foutCA (R"(D:\oop labs\final project\files\Admin.txt)",
+    ofstream foutCA ("files\\Admin.txt",
                      ios_base::app);
     foutCA<<adm<<endl;
     foutCA.close();
 
 }
 bool existCheck(){
-    ifstream fin(R"(D:\oop labs\final project\files\Admin.txt)",ios_base::app);
+    ifstream fin("files\\Admin.txt",ios_base::app);
     bool T=false;
     if(fin.is_open()){
         string line;
@@ -153,46 +153,49 @@ bool existCheck(){
     return T;
 }
 void adminDelete() {
-    ifstream fin(R"(D:\oop labs\final project\files\Admin.txt)");
-    cout << "Enter password:";
+    ifstream fin("files\\Admin.txt");
     shared_ptr<string> password {new string{""}};
-    cin >> *password;
+    cout << "Enter password:";
     Admin admin;
     while(fin >> admin) {
-        if (admin.getPassword() == *password) {
-            ofstream fout(R"(D:\oop labs\final project\files\Admin.txt)",
-                          ios_base::trunc);
-            if (fout.is_open()) {
-                fout << "";
-                cout << "Your account is successfully deleted" << endl;
+        do {
+            cin >> *password;
+            if (admin.getPassword() == *password) {
+                ofstream fout("files\\Admin.txt",
+                              ios_base::trunc);
+                if (fout.is_open()) {
+                    fout << "";
+                    cout << "Your account is successfully deleted" << endl;
+                }
+                fout.close();
+            } else {
+                cout << "Wrong password!" << endl;
+                cout << "Enter password again" << endl;
             }
-            fout.close();
-        } else {
-            cout << "Wrong password!" << endl;
-        }
+        } while (admin.getPassword() != *password);
     }
 }
 void adminEnter(){
-    ifstream fin (R"(D:\oop labs\final project\files\Admin.txt)",ios_base::app);
-    shared_ptr<string> name {new string{""}};
-    shared_ptr<string> surname {new string{""}};
-    shared_ptr<string> pass {new string{""}};
+    ifstream fin ("files\\Admin.txt",ios_base::app);
     shared_ptr<string> parol{new string{""}};
-    cout<<"Enter your password: ";
-    cin>>*parol;
-    Admin admin(*name, *surname, *pass);
+    Admin admin;
+    cout<<"Enter your password:";
     while(fin >> admin){
-        if(admin.getPassword() == *parol){
-            cout << "Welcome" <<  endl;
-        }
-        else{
-            cerr << "Wrong password" << endl;
-        }
+        do {
+            cin>>*parol;
+            if(admin.getPassword() == *parol){
+                cout << "Welcome" <<  endl;
+            }
+            else{
+                cout << "Wrong password" << endl;
+                cout << "Enter your password again:" << endl;
+            }
+        } while (admin.getPassword() != *parol);
     }
 }
 void readCouples(){
     int i = 1;
-    ifstream fin(R"(D:\oop labs\final project\files\Couples.txt)",ios_base::app);
+    ifstream fin("files\\Couples.txt",ios_base::app);
     shared_ptr<string> name{new string {""}};
     shared_ptr<string> givername{new string {""}};
     while(fin >> *name >> *givername) {
@@ -203,11 +206,11 @@ void readCouples(){
 }
 void instruction(){
     User user;
-    string filePath = R"(D:\oop labs\final project\files\instruction.txt)";
+    string filePath = "files\\instruction.txt";
     user.writeText(filePath);
 }
 void choice(const string& newname) {
-    ifstream fin(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::app);
+    ifstream fin("files\\Selected.txt", ios_base::app);
     if (!fin.is_open()) {
         cerr << "Error" << endl;
     } else {
@@ -224,7 +227,7 @@ void choice(const string& newname) {
 
             std::getline(fin, *about);
             std::getline(fin, *requirements);
-            ofstream fout(R"(D:\oop labs\final project\files\Match.txt)", ios_base::app);
+            ofstream fout("files\\Match.txt", ios_base::app);
             fout << newname << " " << *name<<endl;
             fout.close();
         }
@@ -232,7 +235,7 @@ void choice(const string& newname) {
     }
 }
 void adminRead(){
-    ifstream finE(R"(D:\oop labs\final project\files\Info.txt)",ios_base::app);
+    ifstream finE("files\\Info.txt",ios_base::app);
     if (!finE.is_open()) {
         cerr << "Error opening file: " << endl;
     }
@@ -250,7 +253,7 @@ void adminRead(){
 }
 
 void sortByAge(){
-    ifstream finE(R"(D:\oop labs\final project\files\Info.txt)",ios_base::app);
+    ifstream finE("files\\Info.txt",ios_base::app);
     if (!finE.is_open()) {
         cerr << "Error opening file: " << endl;
     }
@@ -259,20 +262,18 @@ void sortByAge(){
     while(finE >> user){
         records.emplace_back(user.getPass(), user.get_name(), user.get_surname(), user.getAge(), user.getSex(), user.getRegisnum(), user.getRegistrationDate(), user.getStatus(), user.getAbout(), user.getRequirements());
         std::sort(records.begin(), records.end(), [](User &a,User &b) {
-            return a.getAge() < b.getAge(); // Сортування за іменем
+            return a.getAge() < b.getAge();
         });
-        ofstream foutdel(R"(D:\oop labs\final project\files\Info.txt)", ios_base::trunc);
+        ofstream foutdel("files\\Info.txt", ios_base::trunc);
         for (const auto &record: records) {
-            foutdel << record << endl; // Переконайтеся, що оператор << правильно записує всі поля
+            foutdel << record << endl;
         }
-        cout << "Sorted by age" << endl;
-        adminRead();
         foutdel.close();
     }
     finE.close();
 }
 void sortByDate(){
-    ifstream finE(R"(D:\oop labs\final project\files\Info.txt)",ios_base::app);
+    ifstream finE("files\\Info.txt",ios_base::app);
     if (!finE.is_open()) {
         cerr << "Error opening file: " << endl;
     }
@@ -281,14 +282,12 @@ void sortByDate(){
     while(finE >> user){
         records.emplace_back(user.getPass(), user.get_name(), user.get_surname(), user.getAge(), user.getSex(), user.getRegisnum(), user.getRegistrationDate(), user.getStatus(), user.getAbout(), user.getRequirements());
         std::sort(records.begin(), records.end(), [](User &a,User &b) {
-            return a.getRegistrationDate() < b.getRegistrationDate(); // Сортування за іменем
+            return a.getRegistrationDate() < b.getRegistrationDate();
         });
-        ofstream foutdel(R"(D:\oop labs\final project\files\Info.txt)", ios_base::trunc);
+        ofstream foutdel("files\\Info.txt", ios_base::trunc);
         for (const auto &record: records) {
-            foutdel << record << endl; // Переконайтеся, що оператор << правильно записує всі поля
+            foutdel << record << endl;
         }
-        cout << "Sorted by date" << endl;
-        adminRead();
         foutdel.close();
     }
     finE.close();
@@ -302,9 +301,11 @@ void sort(){
     cin >> choice;
     switch (choice) {
         case 1:
+            cout << "Sorted by age" << endl;
             sortByAge();
             break;
         case 2:
+            cout << "Sorted by date" << endl;
             sortByDate();
             break;
         default:
@@ -312,7 +313,7 @@ void sort(){
     }
 }
 void unBan(const string& deletename){
-    ifstream fin(R"(D:\oop labs\final project\files\Reports.txt)", ios_base::app);
+    ifstream fin("files\\Reports.txt", ios_base::app);
     if (!fin.is_open()) {
         cerr << "Error" << endl;
     }
@@ -333,7 +334,7 @@ void unBan(const string& deletename){
     fin.close();
 
     if (found) {
-        ofstream foutdel(R"(D:\oop labs\final project\files\Reports.txt)", ios_base::trunc);
+        ofstream foutdel("files\\Reports.txt", ios_base::trunc);
         for (const auto &record: vec) {
             foutdel << record.first << endl << record.second;
         }
@@ -343,7 +344,7 @@ void unBan(const string& deletename){
     }
 }
 void ban(const string& deletename){
-    ifstream fin(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
+    ifstream fin("files\\Info.txt", ios_base::app);
     bool found = false;
     User acc;
     vector<User> vec;
@@ -357,7 +358,7 @@ void ban(const string& deletename){
     fin.close();
 
     if (found) {
-        ofstream foutdel(R"(D:\oop labs\final project\files\Info.txt)", ios_base::trunc);
+        ofstream foutdel("files\\Info.txt", ios_base::trunc);
         for (const auto &record: vec) {
             foutdel << record << endl;
         }
@@ -367,7 +368,7 @@ void ban(const string& deletename){
     }
 }
 void deleteAcc(){
-    ifstream finE(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::in);
+    ifstream finE("files\\Selected.txt", ios_base::in);
     if (!finE.is_open()) {
         cerr << "Error opening file: " << endl;
     }
@@ -381,7 +382,7 @@ void deleteAcc(){
             {
                 cout << "Verification passed" << endl;
                 cout << "Account is successfully deleted" << endl;
-                ofstream fout(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::trunc);
+                ofstream fout("files\\Selected.txt", ios_base::trunc);
                 fout<<"";
                 fout.close();
             }
@@ -395,7 +396,7 @@ void deleteAcc(){
 }
 void reports(string newname) {
 
-    ofstream fout(R"(D:\oop labs\final project\files\Reports.txt)", ios_base::app);
+    ofstream fout("files\\Reports.txt", ios_base::app);
     shared_ptr<string> reporttext{new string{""}};
     cout << "Report" << endl;
     cin.ignore();
@@ -407,7 +408,7 @@ void reports(string newname) {
 
 }
 void reportRead() {
-    ifstream fin(R"(D:\oop labs\final project\files\Reports.txt)", ios_base::app);
+    ifstream fin("files\\Reports.txt", ios_base::app);
     if (!fin.is_open()) {
         cerr << "Error" << endl;
     } else {
@@ -418,7 +419,7 @@ void reportRead() {
 
         Report rep;
         while (fin >> rep) {
-            ifstream finAcc(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
+            ifstream finAcc("files\\Info.txt", ios_base::app);
             User user;
             while (finAcc >> user) {
                 if (rep.getName() == user.get_name()) {
@@ -453,7 +454,7 @@ void reportRead() {
     }
 }
 void show() {
-    ifstream finE(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::in);
+    ifstream finE("files\\Selected.txt", ios_base::in);
     if (!finE.is_open()) {
         cerr << "Error opening file: " << endl;
     }
@@ -485,7 +486,7 @@ void show() {
 }
 
 void status() {
-    std::ifstream finE(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::in);
+    std::ifstream finE("files\\Selected.txt", std::ios_base::in);
     if (!finE.is_open()) {
         std::cerr << "Error opening file." << std::endl;
         return;
@@ -493,7 +494,7 @@ void status() {
 
     User user1;
     while (finE >> user1) {
-        std::ofstream fout(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::trunc);
+        std::ofstream fout("files\\Selected.txt", std::ios_base::trunc);
         int choice;
         cout << "Your current status is:" << user1.getStatus() << endl;
         if(user1.getStatus() == "Active"){
@@ -537,7 +538,7 @@ void status() {
 }
 
 void edit() {
-    std::ifstream finE(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::in);
+    std::ifstream finE("files\\Selected.txt", std::ios_base::in);
     if (!finE.is_open()) {
         std::cerr << "Error opening file." << std::endl;
         return;
@@ -560,7 +561,7 @@ void edit() {
         cin.ignore();
 
         if (user1.getPass() == *pass) {
-            std::ofstream fout(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::trunc);
+            std::ofstream fout("files\\Selected.txt", std::ios_base::trunc);
             cout << "1 - Change general information(name, surname, age, sex)" << endl;
             cout << "2 - Change description" << endl;
             cin >> choice;
@@ -676,14 +677,14 @@ bool checking(const string& sercname) {
     if (isEmpty()) {
         return true;
     } else {
-        ifstream fin(R"(D:\oop labs\final project\files\Couples.txt)", ios_base::app);
+        ifstream fin("files\\Couples.txt", ios_base::app);
         if (!fin.is_open()) {
             cerr << "Error opening file: " << endl;
         } else {
             shared_ptr<string> receivename{new string{""}};
             shared_ptr<string> givername{new string{""}};
             while (fin >> *receivename >> *givername) {
-                ifstream finS(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::app);
+                ifstream finS("files\\Selected.txt", ios_base::app);
                 shared_ptr<string> pass{new string{""}};
                 shared_ptr<string> name{new string{""}};
                 shared_ptr<string> surname{new string{""}};
@@ -708,7 +709,7 @@ bool checking(const string& sercname) {
     return true;
 }
 void read() {
-    ifstream finE(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
+    ifstream finE("files\\Info.txt", ios_base::app);
     if (!finE.is_open()) {
         cerr << "Error opening file: " << endl;
     } else {
@@ -731,15 +732,14 @@ void read() {
         }
         int i=1;
         while (finE >> user) {
-            ifstream finSelect(R"(D:\oop labs\final project\files\Selected.txt)", ios_base::in);
+            ifstream finSelect("files\\Selected.txt", ios_base::in);
             if (!finE.is_open()) {
                 cerr << "Error opening file: " << endl;
             }
             User user1;
-
             while (finSelect >> user1) {
                 if (*search == user.getSex() && user.getStatus() == "Active") {
-                    if (user1.subtractFromAge() <= user.getAge() <= user1.addToAge()) {
+                    if (user1.subtractFromAge() <= user.getAge() && user.getAge() <= user1.addToAge()) {
                         if (checking(user.get_name())) {
                             int option;
                             cout <<"----------Profile:" << i << "-----------" << endl;
@@ -775,37 +775,87 @@ void read() {
         finE.close();
     }
 }
-    void conformation(const string& givename, const string& receivename) {
-        ifstream fin(R"(D:\oop labs\final project\files\Match.txt)", ios_base::app);
-        shared_ptr<string> name{new string{""}};
-        shared_ptr<string> secname{new string{""}};
-        bool found = false;
-        vector<User> vec;
-        while (fin >> *name >> *secname) {
-            if (*name == receivename && *secname == givename) {
-                found = true;
-                ofstream fout(R"(D:\oop labs\final project\files\Couples.txt)", ios_base::app);
-                fout << receivename << endl << givename << endl;
+void conformation(const string& givename, const string& receivename) {
+    ifstream fin("files\\Match.txt");
+    if (!fin.is_open()) {
+        cerr << "Error opening file for reading: Match.txt" << endl;
+        return;
+    }
+
+    shared_ptr<string> name{new string{""}};
+    shared_ptr<string> secname{new string{""}};
+    bool found = false;
+    vector<string> vec;
+
+    while (fin >> *name >> *secname) {
+        if (*name == receivename && *secname == givename) {
+            found = true;
+            ofstream fout("files\\Couples.txt", ios_base::app);
+            if (fout.is_open()) {
+                fout << *name << endl << *secname << endl;
                 fout.close();
             } else {
-                vec.emplace_back(*name, *secname);
+                cerr << "Error opening file for appending: Couples.txt" << endl;
             }
+        } else {
+            vec.emplace_back(*name + "\n" + *secname);
         }
-        fin.close();
+    }
+    fin.close();
 
-        if (found) {
-            ofstream foutdel(R"(D:\oop labs\final project\files\Match.txt)", ios_base::trunc);
-            for (const auto &record: vec) {
+    if (found) {
+        ofstream foutdel("files\\Match.txt", ios_base::trunc);
+        if (foutdel.is_open()) {
+            for (const auto &record : vec) {
                 foutdel << record << endl;
             }
             foutdel.close();
         } else {
-            cerr << "Incorrect data" << endl;
+            cerr << "Error opening file for truncating: Match.txt" << endl;
+        }
+    } else {
+        cerr << "Incorrect data: no matching names found" << endl;
+    }
+}
+
+void skip(const string& givename, const string& receivename) {
+    ifstream fin("files\\Match.txt");
+    if (!fin.is_open()) {
+        cerr << "Error opening file for reading: Match.txt" << endl;
+        return;
+    }
+
+    shared_ptr<string> name{new string{""}};
+    shared_ptr<string> secname{new string{""}};
+    bool found = false;
+    vector<string> vec;
+
+    while (fin >> *name >> *secname) {
+        if (*name == receivename && *secname == givename) {
+            found = true;
+        } else {
+            vec.emplace_back(*name + "\n" + *secname);
         }
     }
 
+    if (found) {
+        ofstream foutdel("files\\Match.txt", ios_base::trunc);
+        if (foutdel.is_open()) {
+            for (const auto &record : vec) {
+                foutdel << record << endl;
+            }
+            foutdel.close();
+        } else {
+            cerr << "Error opening file for truncating: Match.txt" << endl;
+        }
+    } else {
+        cerr << "Incorrect data: no matching names found" << endl;
+    }
+}
+
+
 void notifications() {
-    ifstream fin(R"(D:\oop labs\final project\files\Selected.txt)");
+    ifstream fin("files\\Selected.txt");
     if (!fin.is_open()) {
         std::cout << "Error opening file for reading: Selected.txt" << std::endl;
         return;
@@ -821,9 +871,11 @@ void notifications() {
     shared_ptr<string> requirements{new string{""}};
     std::shared_ptr<std::string> registrationDate{new std::string{getCurrentDateTime()}};
     std::shared_ptr<std::string> status{new std::string{""}};
+
     User user(*pass, *name, *surname, *age, *sex, *regisnum, *about, *requirements, *registrationDate, *status);
+
     while (fin >> user) {
-        ifstream finE(R"(D:\oop labs\final project\files\Match.txt)");
+        ifstream finE("files\\Match.txt");
         if (!finE.is_open()) {
             std::cout << "Error opening file for reading: Match.txt" << std::endl;
             return;
@@ -832,32 +884,33 @@ void notifications() {
         shared_ptr<string> receivename{new string{""}};
         shared_ptr<string> givename{new string{""}};
 
+        bool matchFound = false;
+
         while (finE >> *receivename >> *givename) {
             if (user.get_name() == *receivename) {
-                ifstream finS(R"(D:\oop labs\final project\files\Info.txt)", ios_base::app);
-                while (finS >> user) {
-                    if (user.get_name() == *givename) {
-                        cout << "You received a like!" << endl;
-                        cout << "name: ";
-                        cout << user.get_name() << endl;
-                        cout << "surname: ";
-                        cout << user.get_surname() << endl;
-                        cout << "age: ";
-                        cout << user.getAge() << endl;
-                        cout << "sex: ";
-                        cout << user.getSex() << endl;
-                        cout << "registration number: ";
-                        cout << user.getRegisnum() << endl;
-                        cout << "about: ";
-                        cout << user.getAbout() << endl;
-                        cout << "requirements: ";
-                        cout << user.getRequirements() << endl;
-                    }
+                ifstream finS("files\\Info.txt");
+                if (!finS.is_open()) {
+                    std::cout << "Error opening file for reading: Info.txt" << std::endl;
+                    return;
                 }
-                finS.close();
-                cout << "1 - Like" << endl << "2 - Skip" << endl;
-                int choice;
-                cin >> choice;
+
+                User tempUser(*pass, *name, *surname, *age, *sex, *regisnum, *about, *requirements, *registrationDate, *status);
+
+                while (finS >> tempUser) {
+                    if (tempUser.get_name() == *givename) {
+                        matchFound = true;
+                        cout << "You received a like!" << endl;
+                        cout << "name: " << tempUser.get_name() << endl;
+                        cout << "surname: " << tempUser.get_surname() << endl;
+                        cout << "age: " << tempUser.getAge() << endl;
+                        cout << "sex: " << tempUser.getSex() << endl;
+                        cout << "registration number: " << tempUser.getRegisnum() << endl;
+                        cout << "about: " << tempUser.getAbout() << endl;
+                        cout << "requirements: " << tempUser.getRequirements() << endl;
+
+                        cout << "1 - Like" << endl << "2 - Skip" << endl;
+                        int choice;
+                        cin >> choice;
                         switch (choice) {
                             case 1:
                                 cout << "Liked received" << endl;
@@ -865,18 +918,27 @@ void notifications() {
                                 break;
                             case 2:
                                 cout << "Skipped" << endl;
+                                skip(*givename, *receivename);
                                 break;
                             default:
                                 cerr << "Wrong choice" << endl;
                         }
+                    }
                 }
+                finS.close();
             }
-            finE.close();
         }
-        fin.close();
+        if (!matchFound) {
+            cout << "No matches found for: " << user.get_name() << endl;
+        }
+        finE.close();
+    }
+    fin.close();
 }
+
+
 void exit() {
-    std::ifstream fin(R"(D:\oop labs\final project\files\Selected.txt)");
+    std::ifstream fin("files\\Selected.txt");
     if (!fin.is_open()) {
         std::cout << "Error opening file for reading: Selected.txt" << std::endl;
         return;
@@ -892,7 +954,7 @@ void exit() {
     shared_ptr<string> requirements{new string{""}};
     std::shared_ptr<std::string> registrationDate{new std::string{getCurrentDateTime()}};
     std::shared_ptr<std::string> status{new std::string{""}};
-    std::ofstream fout(R"(D:\oop labs\final project\files\Info.txt)", std::ios_base::app);
+    std::ofstream fout("files\\Info.txt", std::ios_base::app);
     if (!fout.is_open()) {
         std::cout << "Error opening file for writing: Info.txt" << std::endl;
         return;
@@ -905,7 +967,7 @@ void exit() {
     fin.close();
     fout.close();
 
-    std::ofstream foutsel(R"(D:\oop labs\final project\files\Selected.txt)", std::ios_base::trunc);
+    std::ofstream foutsel("files\\Selected.txt", std::ios_base::trunc);
     if (!foutsel.is_open()) {
         std::cout << "Error opening file for clearing: Selected.txt" << std::endl;
         return;
@@ -914,7 +976,7 @@ void exit() {
 }
 
 bool logIn() {
-    ifstream fin(R"(D:\oop labs\final project\files\Info.txt)");
+    ifstream fin("files\\Info.txt");
     if (!fin.is_open()) {
         cerr << "Error" << endl;
         return false;
@@ -927,7 +989,7 @@ bool logIn() {
         shared_ptr<string> newname{new string{""}};
         cout << "Enter name:";
         cin >> *newname;
-        ifstream reportsFile(R"(D:\oop labs\final project\files\Reports.txt)");
+        ifstream reportsFile("files\\Reports.txt");
         Report report;
         while (reportsFile >> report) {
             try {
@@ -947,7 +1009,7 @@ bool logIn() {
         while (fin >> user) {
             if (*pass == user.getPass() && *newname == user.get_name()) {
                 found = true;
-                ofstream foutsel(R"(D:\oop labs\final project\files\Selected.txt)");
+                ofstream foutsel("files\\Selected.txt");
                 User acc(user.getPass(), user.get_name(), user.get_surname(), user.getAge(), user.getSex(), user.getRegisnum(), user.getRegistrationDate(), user.getStatus(), user.getAbout(), user.getRequirements());
                 foutsel << acc << endl;
                 foutsel.close();
@@ -959,7 +1021,7 @@ bool logIn() {
         fin.close();
 
         if (found) {
-            ofstream foutdel(R"(D:\oop labs\final project\files\Info.txt)", ios_base::trunc);
+            ofstream foutdel("files\\Info.txt", ios_base::trunc);
             for (const auto &record: records) {
                 foutdel << record << endl;
             }

@@ -40,7 +40,7 @@ istream& operator>>(istream& is, Admin& admin) {
 }
 
 Admin::~Admin() noexcept {
-    ofstream fout(R"(D:\oop labs\final project\files\log.txt)", ios_base::app);
+    ofstream fout("files\\log.txt", ios_base::app);
     fout << "admin destructor" << endl;
     fout.close();
 }

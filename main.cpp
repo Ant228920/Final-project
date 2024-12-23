@@ -18,7 +18,7 @@ int main() {
                 cout << "2 - If you are User" << endl;
                 cout << "3 - To see instruction" << endl;
                 line();
-                cin >> initial;
+                get_input(initial);
 
 
             if (initial != 1 && initial != 2 && initial !=3)
@@ -32,7 +32,7 @@ int main() {
                 bool T = existCheck();
 
                 try {
-                    cin >> choice;
+                    get_input(choice);
                     switch (choice) {
                         case 1:
                             if (T) {
@@ -71,7 +71,7 @@ int main() {
                     cout << "6 - Quit" << endl;
                     line();
                     try {
-                        cin >> func;
+                        get_input(func);
 
                         switch (func) {
                             case 1:
@@ -109,7 +109,7 @@ int main() {
                     cout << "2 - log in" << endl;
                     line();
                     try {
-                        cin >> choice;
+                        get_input(choice);
                         switch (choice) {
                             case 1:
                                 signIn();
@@ -143,7 +143,7 @@ int main() {
                     line();
 
                     try {
-                        cin >> func;
+                        get_input(func);
 
                         switch (func) {
                             case 1:

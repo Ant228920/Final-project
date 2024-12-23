@@ -4,6 +4,8 @@
 #include "Report.h"
 #ifndef FINAL_PROJECT_FUNCTIONS_H
 #define FINAL_PROJECT_FUNCTIONS_H
+template <typename T>
+T get_input(T& value);
 void signIn();
 bool existCheck();
 void show();

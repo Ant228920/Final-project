@@ -39,7 +39,7 @@ istream& operator>>(std::istream& is, Report& user) {
 }
 
 Report::~Report() noexcept {
-    ofstream fout(R"(D:\oop labs\final project\files\log.txt)", ios_base::app);
+    ofstream fout("files\\log.txt", ios_base::app);
     fout << "report destructor" << endl;
     fout.close();
 }

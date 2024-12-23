@@ -61,7 +61,7 @@ istream& operator>>(istream &is, Person &obj) {
 }
 
 Person::~Person() {
-    ofstream fout(R"(C:\Users\Admin\Desktop\directory_of_cars\database\log.txt)", ios_base::app);
+    ofstream fout("files\\log.txt", ios_base::app);
     fout << name << "destructor"<<endl;
     fout.close();
 }
